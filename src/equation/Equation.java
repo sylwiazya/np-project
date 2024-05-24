@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Equation {
 
-    private int difficulty;
+    private int maxNumOfDigits;
     private long solution;
     private String equation;
     private final static ArrayList<String> OPERATIONS =
@@ -16,28 +16,28 @@ public class Equation {
 
     }
 
-    public Equation(int difficulty) throws EquationException {
-        if (difficulty < 1)
+    public Equation(int maxNumOfDigits, int maxNumOfOperations) throws EquationException {
+        if (maxNumOfDigits < 1)
             throw new EquationTooEasyException("C'mon, this is too easy!");
-        if (difficulty > 4)
+        if (maxNumOfDigits > 4)
             throw new EquationTooHardException("You think you're smart, huh?");
 
-        this.difficulty = difficulty;
-        this.equation = buildEquation(difficulty);
+        this.maxNumOfDigits = maxNumOfDigits;
+        this.equation = buildEquation(maxNumOfDigits, maxNumOfOperations);
         this.solution = (long) solveEquation(this.equation);
     }
 
-    private String buildEquation(int difficulty) {
+    private String buildEquation(int maxNumOfDigits, int maxNumOfOperations) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < difficulty; i++) {
-            // This will generate a number with number of digits equal to difficulty
-            int firstOperand = (int) (Math.random() * Math.pow(10, difficulty));
+        for (int i = 0; i < maxNumOfOperations; i++) {
+            // This will generate a number with number of digits equal to maxNumOfDigits
+            int firstOperand = (int) (Math.random() * Math.pow(10, maxNumOfDigits));
             String operation = OPERATIONS.get((int) (Math.random() * OPERATIONS.size()));
-            int secondOperand = (int) (Math.random() * Math.pow(10, difficulty));
+            int secondOperand = (int) (Math.random() * Math.pow(10, maxNumOfDigits));
 
             // This line assures that no division with zero happens
             while (operation.equals("/") && secondOperand == 0)
-                secondOperand = (int) (Math.random() * Math.pow(10, difficulty));
+                secondOperand = (int) (Math.random() * Math.pow(10, maxNumOfDigits));
 
             stringBuilder.append(firstOperand);
             stringBuilder.append(" ");
@@ -45,7 +45,7 @@ public class Equation {
             stringBuilder.append(" ");
             stringBuilder.append(secondOperand);
 
-            if (i != difficulty - 1) {
+            if (i != maxNumOfOperations - 1) {
                 String nextOperation = OPERATIONS.get((int) (Math.random() * OPERATIONS.size()));
                 stringBuilder.append(" ");
                 stringBuilder.append(nextOperation);
@@ -63,7 +63,7 @@ public class Equation {
     }
 
     public int getDifficulty() {
-        return difficulty;
+        return maxNumOfDigits;
     }
 
     public long getSolution() {
