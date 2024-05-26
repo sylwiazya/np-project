@@ -7,6 +7,7 @@ public class Quiz {
     private int maxNumOfDigits;
     private ArrayList<Question> questions;
     private int maxTimeout;
+    private int grade;    
 
 
     protected Quiz() {
@@ -30,5 +31,10 @@ public class Quiz {
 
     public int getNumOfQuestions() {
         return numOfQuestions;
+    }
+    public int getGrade(){
+        this.grade = 0;
+        this.questions.forEach(question->grade += question.isUserAnswerCorrect() ? 1 : 0);
+        return grade;
     }
 }
