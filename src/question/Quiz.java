@@ -9,14 +9,14 @@ public class Quiz {
     private int maxNumOfDigits;
     private ArrayList<Question> questions;
     private int maxTimeout;
-    private int grade;    
+    private int grade;
 
 
     protected Quiz() {
 
     }
 
-    public Quiz(int numOfQuestions, int maxNumOfDigits, int maxNumOfOperations, int maxTimeout) {
+    public Quiz(int numOfQuestions, int maxTimeout, int maxNumOfDigits, int maxNumOfOperations) {
         this.numOfQuestions = numOfQuestions;
         this.maxTimeout = maxTimeout;
         this.maxNumOfDigits = maxNumOfDigits;
@@ -34,9 +34,22 @@ public class Quiz {
     public int getNumOfQuestions() {
         return numOfQuestions;
     }
-    public int getGrade(){
+
+    public int getMaxTimeout() {
+        return this.maxTimeout;
+    }
+
+    public int getMaxNumOfOperations() {
+        return this.maxNumOfOperations;
+    }
+
+    public int getMaxNumOfDigits() {
+        return this.maxNumOfDigits;
+    }
+
+    public int getGrade() {
         this.grade = 0;
-        this.questions.forEach(question->grade += question.isUserAnswerCorrect() ? 1 : 0);
-        return grade;
+        this.questions.forEach(question -> this.grade += question.isUserAnswerCorrect() ? 1 : 0);
+        return this.grade;
     }
 }

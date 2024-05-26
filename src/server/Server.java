@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class Server {
 
     private ServerSocket socket;
@@ -36,17 +33,19 @@ public class Server {
 //
 //        }, 10, TimeUnit.MINUTES);
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("10 minutes passed. Performing scheduled task...");
-                // Add your task here
-            }
-        }, 10 * 60 * 1000); // 10 minutes in milliseconds
+//        Timer timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                System.out.println("10 minutes passed. Performing scheduled task...");
+//                // Add your task here
+//            }
+//        }, 10 * 60 * 1000); // 10 minutes in milliseconds
 
         while (true) {
             Socket connection = this.socket.accept();
+            System.out.println("Server: Received new connection on " +
+                    connection.getInetAddress() + ":" + connection.getPort());
             this.connectionHandler.setSocket(connection);
             this.connectionHandler.run();
         }
