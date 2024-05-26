@@ -1,3 +1,5 @@
+package question;
+
 import equation.Equation;
 import equation.EquationException;
 

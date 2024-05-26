@@ -18,7 +18,7 @@ public class Equation {
 
     public Equation(int maxNumOfDigits, int maxNumOfOperations) throws EquationException {
         if (maxNumOfDigits < 1)
-            throw new EquationTooEasyException("C'mon, this is too easy!");
+            throw new EquationTooEasyException("Is this even possible? O_o");
         if (maxNumOfDigits > 4)
             throw new EquationTooHardException("You think you're smart, huh?");
 
@@ -28,32 +28,33 @@ public class Equation {
     }
 
     private String buildEquation(int maxNumOfDigits, int maxNumOfOperations) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < maxNumOfOperations; i++) {
+        StringBuilder equation = new StringBuilder();
+        final int numberOfOperations = (int) (maxNumOfOperations * Math.random()) + 1;
+
+        for (int i = 0; i < numberOfOperations; i++) {
             // This will generate a number with number of digits equal to maxNumOfDigits
-            int firstOperand = (int) (Math.random() * Math.pow(10, maxNumOfDigits));
+            int operand = (int) (Math.random() * Math.pow(10, maxNumOfDigits));
             String operation = OPERATIONS.get((int) (Math.random() * OPERATIONS.size()));
-            int secondOperand = (int) (Math.random() * Math.pow(10, maxNumOfDigits));
 
             // This line assures that no division with zero happens
-            while (operation.equals("/") && secondOperand == 0)
-                secondOperand = (int) (Math.random() * Math.pow(10, maxNumOfDigits));
+            while (!equation.isEmpty() && equation.charAt(equation.length() - 1) == '/' && operand == 0)
+                operand = (int) (Math.random() * Math.pow(10, maxNumOfDigits));
 
-            stringBuilder.append(firstOperand);
-            stringBuilder.append(" ");
-            stringBuilder.append(operation);
-            stringBuilder.append(" ");
-            stringBuilder.append(secondOperand);
+            equation.append(" ");
+            equation.append(operand);
+            equation.append(" ");
+            equation.append(operation);
 
-            if (i != maxNumOfOperations - 1) {
-                String nextOperation = OPERATIONS.get((int) (Math.random() * OPERATIONS.size()));
-                stringBuilder.append(" ");
-                stringBuilder.append(nextOperation);
-                stringBuilder.append(" ");
+            if (i == numberOfOperations - 1) {
+                int lastOperand = (int) (Math.random() * Math.pow(10, maxNumOfDigits));
+                while (!equation.isEmpty() && equation.charAt(equation.length() - 1) == '/' && lastOperand == 0)
+                    lastOperand = (int) (Math.random() * Math.pow(10, maxNumOfDigits));
+                equation.append(" ");
+                equation.append(lastOperand);
             }
 
         }
-        return stringBuilder.toString();
+        return equation.toString().trim();
     }
 
     private double solveEquation(String equation) {

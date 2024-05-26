@@ -1,3 +1,5 @@
+import question.Quiz;
+
 import java.util.ArrayList;
 
 public final class Statistics {
