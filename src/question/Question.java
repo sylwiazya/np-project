@@ -31,7 +31,7 @@ public class Question {
         long time = new Date().getTime() / 1000;
         long elapsedTime = time - GRACE_PERIOD - this.sendTime;
         //Grace period which means that we give user extra 2 seconds in case of internet issues
-        if (elapsedTime <= this.maxTimeout && userAnswer == this.getCorrectAns())
+        if ((elapsedTime <= this.maxTimeout || this.maxTimeout == 0) && userAnswer == this.getCorrectAns())
             setUserAnsCorrect(true);
         else
             setUserAnsCorrect(false);
