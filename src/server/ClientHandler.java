@@ -2,11 +2,9 @@ package server;
 
 import question.Question;
 import question.Quiz;
+import Stats.Statistics;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.function.Predicate;
@@ -49,7 +47,6 @@ public class ClientHandler implements Runnable {
 
     private void startQuiz(Socket clientSocket, PrintWriter pw, BufferedReader br) {
         try {
-
             pw.println("Please enter the number of questions: ");
             pw.flush();
             int numOfQuestions = getInteger(pw, br, "Please enter a valid integer greater than 0",
@@ -86,7 +83,6 @@ public class ClientHandler implements Runnable {
                     pw.println("Getting next question...");
                     pw.flush();
                     try {
-                        // Sylwiazya: Best way?
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         // Nothing is going to interrupt this thread
@@ -95,6 +91,19 @@ public class ClientHandler implements Runnable {
             }
             pw.println("Your grade is " + quiz.getGrade() + " / " + quiz.getNumOfQuestions());
             pw.flush();
+
+            //Adding the info of the quiz into Statistics class
+            Statistics.incrementNumOfQuizzes();
+            Statistics.addQuiz(quiz);
+            switch (maxNumberOfOperations) {
+                case 1 -> Statistics.incrementOneOpQuizzes();
+                case 2 -> Statistics.incrementTwoOpQuizzes();
+                case 3 -> Statistics.incrementThreeOpQuizzes();
+                case 4 -> Statistics.incrementFourOpQuizzes();
+            }
+            Statistics.updateStats();
+
+
         } catch (SocketException soe) {
             System.out.println("User disconnected unexpectedly");
             try {
@@ -111,7 +120,6 @@ public class ClientHandler implements Runnable {
             var br = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 
             while (true) {
-
                 pw.println("1. Start a new quiz.");
                 pw.println("2. Terminate.");
                 pw.flush();
@@ -125,6 +133,7 @@ public class ClientHandler implements Runnable {
                         pw.println("Terminating connection...");
                         pw.flush();
                         socket.close();
+                        return;
                     }
                 }
             }

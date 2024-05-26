@@ -1,10 +1,11 @@
 package equation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Equation {
+public class Equation implements Serializable {
 
     private int maxNumOfDigits;
     private long solution;

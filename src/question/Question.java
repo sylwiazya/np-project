@@ -3,9 +3,10 @@ package question;
 import equation.Equation;
 import equation.EquationException;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Question {
+public class Question implements Serializable {
     private Equation equation;
     // In seconds
     private int maxTimeout;

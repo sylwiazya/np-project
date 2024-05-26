@@ -23,11 +23,15 @@ public class Client {
             while (true) {
                 while (true)
                     try {
-                        System.out.println(br.readLine());
+                        String msgFromServer = br.readLine();
+                        if (msgFromServer == null)
+                            return;
+                        System.out.println(msgFromServer);
                     } catch (SocketTimeoutException ste) {
                         break;
                     }
-                pw.println(scanner.nextLine());
+                String msgFromUser = scanner.nextLine();
+                pw.println(msgFromUser);
                 pw.flush();
             }
 

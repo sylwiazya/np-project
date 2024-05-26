@@ -15,4 +15,8 @@ public class ConnectionHandler implements Runnable {
     public void setSocket(Socket socket) {
         this.socket = socket;
     }
+
+    public Socket getSocket() {
+        return socket;
+    }
 }

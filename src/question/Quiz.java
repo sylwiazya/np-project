@@ -1,8 +1,9 @@
 package question;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Quiz {
+public class Quiz implements Serializable {
 
     private int numOfQuestions;
     private int maxNumOfOperations;
