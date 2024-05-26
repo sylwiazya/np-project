@@ -19,7 +19,7 @@ public class Client {
             var br = new BufferedReader(new InputStreamReader(s.getInputStream()));
             var scanner = new Scanner(System.in);
             // Arbitrary
-            s.setSoTimeout(1500);
+            s.setSoTimeout(2500);
             while (true) {
                 while (true)
                     try {
