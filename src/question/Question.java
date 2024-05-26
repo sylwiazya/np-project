@@ -8,7 +8,7 @@ import java.util.Date;
 public class Question {
     private Equation equation;
     private int maxTimeout;
-    private boolean isAnsCorrect;
+    private boolean isUserAnswerCorrect;
     private long sendTime;
 
     protected Question() {
@@ -36,12 +36,12 @@ public class Question {
         sendTime = new Date().getTime() / 1000;
     }
 
-    public boolean isAnsCorrect() {
-        return isAnsCorrect;
+    public boolean isUserAnswerCorrect() {
+        return isUserAnswerCorrect;
     }
 
     public void setUserAns(boolean ans) {
-        isAnsCorrect = ans;
+        isUserAnswerCorrect = ans;
     }
 
     public long getCorrectAns() {
