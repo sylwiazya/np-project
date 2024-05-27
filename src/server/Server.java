@@ -21,7 +21,7 @@ public class Server {
     public Server(int port) throws IOException {
         socket = new ServerSocket(port);
         this.port = port;
-        socket.setSoTimeout(1000 * 10 * 60);
+        socket.setSoTimeout(60 * 10 * 1000);
     }
 
     public void startListening() throws IOException {
@@ -58,16 +58,25 @@ public class Server {
             System.out.println("1.. Continue waiting  ");
             System.out.println("2.. Print statistics and terminate server ");
             var scanner = new Scanner(System.in);
-            int response = Integer.parseInt(scanner.nextLine());
+            int response;
+            while (true)
+                try {
+                    response = Integer.parseInt(scanner.nextLine());
+                    if (response != 1 && response != 2)
+                        throw new NumberFormatException();
+                    break;
+                } catch (NumberFormatException nfe) {
+                    System.out.println("Please enter a valid choice.");
+                }
             if (response == 1) {
                 System.out.println("Continuing to wait for connections...");
-            } else if (response == 2) {
+            }
+            if (response == 2) {
                 Statistics.printStats();
                 this.socket.close();
                 System.out.println("Terminating...");
                 System.exit(0);
-            } else
-                System.out.println("Invalid choice, continuing to wait for connections...");
+            }
         } catch (IOException ioe) {
             System.err.println("Admin Panel IOException " + ioe);
         }

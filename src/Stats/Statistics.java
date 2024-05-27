@@ -32,7 +32,7 @@ public final class Statistics {
         }
     }
 
-    public static void updateStats() {
+    public synchronized static void updateStats() {
         try (ObjectOutputStream oWriter = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
             oWriter.writeInt(numOfQuizzes);
             oWriter.writeInt(oneOperationQuizzes);
@@ -94,7 +94,7 @@ public final class Statistics {
                     totalGrades[4]
             );
 
-            showStatistics(totalGrades, new String[]{
+            drawStats(totalGrades, new String[]{
                     "The number of quizzes that achieved a grade below 25%",
                     "The number of quizzes that achieved a grade between 25% & 50%",
                     "The number of quizzes that achieved a grade between 50% & 75%",
@@ -107,7 +107,7 @@ public final class Statistics {
         }
     }
 
-    public static void showStatistics(int[] values, String[] labels) {
+    public static void drawStats(int[] values, String[] labels) {
         JFrame frame = new JFrame("Pie Chart of Student Grades");
         float[] percentages = new float[values.length];
         for (int i = 0; i < percentages.length; i++)
@@ -116,11 +116,11 @@ public final class Statistics {
         PieChart panel = new PieChart(values, percentages, labels);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
-        frame.setSize(800, 600);
+        frame.setSize(1200, 600);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         try {
-            Thread.sleep(50000);
+            Thread.sleep(60 * 10 * 1000);
         } catch (InterruptedException e) {
             System.out.println(e);
         }
