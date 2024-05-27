@@ -21,7 +21,7 @@ public class Server {
     public Server(int port) throws IOException {
         socket = new ServerSocket(port);
         this.port = port;
-        socket.setSoTimeout(10000);
+        socket.setSoTimeout(1000 * 10 * 60);
     }
 
     public void startListening() throws IOException {
@@ -40,21 +40,7 @@ public class Server {
                 this.connectionHandler.run();
             } catch (SocketTimeoutException s) {
                 if (connectionHandler.getSocket() == null || connectionHandler.getSocket().isClosed()) {
-                    System.out.println("There was no requests to connect with the server for 10 minutes ");
-                    System.out.println("What would you like to do ? ");
-                    System.out.println("1.. Continue waiting  ");
-                    System.out.println("2.. Print statistics and terminate server ");
-                    var scanner = new Scanner(System.in);
-                    int response = Integer.parseInt(scanner.nextLine());
-                    if (response == 1) {
-                        System.out.println("Continuing to wait for connections...");
-                    } else if (response == 2) {
-                        Statistics.printStats();
-                        socket.close();
-                        System.out.println("Terminating...");
-                        System.exit(1);
-                    } else
-                        System.out.println("Invalid choice, continuing to wait for connections...");
+                    showAdminPanel();
                 }
             }
         }
@@ -63,5 +49,27 @@ public class Server {
 
     public void onNewConnection(ConnectionHandler connectionHandler) {
         this.connectionHandler = connectionHandler;
+    }
+
+    public void showAdminPanel() {
+        try {
+            System.out.println("There was no requests to connect with the server for 10 minutes ");
+            System.out.println("What would you like to do ? ");
+            System.out.println("1.. Continue waiting  ");
+            System.out.println("2.. Print statistics and terminate server ");
+            var scanner = new Scanner(System.in);
+            int response = Integer.parseInt(scanner.nextLine());
+            if (response == 1) {
+                System.out.println("Continuing to wait for connections...");
+            } else if (response == 2) {
+                Statistics.printStats();
+                this.socket.close();
+                System.out.println("Terminating...");
+                System.exit(0);
+            } else
+                System.out.println("Invalid choice, continuing to wait for connections...");
+        } catch (IOException ioe) {
+            System.err.println("Admin Panel IOException " + ioe);
+        }
     }
 }

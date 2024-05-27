@@ -1,7 +1,9 @@
 package Stats;
 
 import question.Quiz;
+import util.PieChart;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -45,12 +47,17 @@ public final class Statistics {
     }
 
     public static void printStats() {
-        System.out.println(
-                "Number of quizzes: " + numOfQuizzes
-                        + "\nNumber of quizzes which include one operation: " + oneOperationQuizzes
-                        + "\nNumber of quizzes which include two operation as a max: " + twoOperationQuizzes
-                        + "\nNumber of quizzes which include three operation as a max: " + threeOperationQuizzes
-                        + "\nNumber of quizzes which include four operation as a max: " + fourOperationQuizzes);
+        System.out.printf("%-85s %d%n", "Number of quizzes:",
+                numOfQuizzes);
+        System.out.printf("%-85s %d%n", "Number of quizzes which include one operation:",
+                oneOperationQuizzes);
+        System.out.printf("%-85s %d%n", "Number of quizzes which include two operations as a max:",
+                twoOperationQuizzes);
+        System.out.printf("%-85s %d%n", "Number of quizzes which include three operations as a max:",
+                threeOperationQuizzes);
+        System.out.printf("%-85s %d%n", "Number of quizzes which include four operations as a max:",
+                fourOperationQuizzes);
+        System.out.println();
         int[] totalGrades = new int[5];
         try {
             for (Quiz quiz : quizzes) {
@@ -66,14 +73,56 @@ public final class Statistics {
                 else
                     totalGrades[4]++;
             }
-            System.out.println("The number of quizzes that achieved a grade below 25% is : " + totalGrades[0]);
-            System.out.println("The number of quizzes that achieved a grade between 25% & 50% is : " + totalGrades[1]);
-            System.out.println("The number of quizzes that achieved a grade between 50% & 75% is : " + totalGrades[2]);
-            System.out.println("The number of quizzes that achieved a grade between 75% & 100%(not included) is : " + totalGrades[3]);
-            System.out.println("The number of quizzes that achieved a grade equal to 100% is : " + totalGrades[4]);
+            System.out.printf(
+                    "%-85s %d%n", "The number of quizzes that achieved a grade below 25% is:",
+                    totalGrades[0]
+            );
+            System.out.printf(
+                    "%-85s %d%n", "The number of quizzes that achieved a grade between 25% & 50% is:",
+                    totalGrades[1]
+            );
+            System.out.printf(
+                    "%-85s %d%n", "The number of quizzes that achieved a grade between 50% & 75% is:",
+                    totalGrades[2]
+            );
+            System.out.printf(
+                    "%-85s %d%n", "The number of quizzes that achieved a grade between 75% & 100% (not included) is:",
+                    totalGrades[3]
+            );
+            System.out.printf(
+                    "%-85s %d%n", "The number of quizzes that achieved a grade equal to 100% is:",
+                    totalGrades[4]
+            );
+
+            showStatistics(totalGrades, new String[]{
+                    "The number of quizzes that achieved a grade below 25%",
+                    "The number of quizzes that achieved a grade between 25% & 50%",
+                    "The number of quizzes that achieved a grade between 50% & 75%",
+                    "The number of quizzes that achieved a grade between 75% & 100% (not included)",
+                    "The number of quizzes that achieved a grade equal to 100%",
+            });
 
         } catch (NullPointerException e) {
             System.out.println("No Quizzes taken yet!");
+        }
+    }
+
+    public static void showStatistics(int[] values, String[] labels) {
+        JFrame frame = new JFrame("Pie Chart of Student Grades");
+        float[] percentages = new float[values.length];
+        for (int i = 0; i < percentages.length; i++)
+            percentages[i] = values[i] / (float) values.length;
+
+        PieChart panel = new PieChart(values, percentages, labels);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(panel);
+        frame.setSize(800, 600);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        try {
+            Thread.sleep(50000);
+        } catch (InterruptedException e) {
+            System.out.println(e);
         }
     }
 
