@@ -28,7 +28,7 @@ public class Question implements Serializable {
         }
     }
 
-    public void answerQuestion(long userAnswer) {
+    public void answerQuestion(double userAnswer) {
         long time = new Date().getTime() / 1000;
         long elapsedTime = time - GRACE_PERIOD - this.sendTime;
         //Grace period which means that we give user extra 2 seconds in case of internet issues
@@ -52,7 +52,7 @@ public class Question implements Serializable {
         this.isUserAnswerCorrect = ans;
     }
 
-    private long getCorrectAns() {
+    private Double getCorrectAns() {
         return this.equation.getSolution();
     }
 

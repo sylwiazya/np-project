@@ -22,12 +22,12 @@ public class ClientHandler implements Runnable {
         this.socket = socket;
     }
 
-    private long getLong(PrintWriter pw, BufferedReader br, String invalidMessage,
-                         Predicate<Long> validityLambda) throws SocketException {
-        long number;
+    private double getDouble(PrintWriter pw, BufferedReader br, String invalidMessage,
+                             Predicate<Double> validityLambda) throws SocketException {
+        double number;
         while (true)
             try {
-                number = Long.parseLong(br.readLine());
+                number = Double.parseDouble(br.readLine());
                 if (validityLambda != null)
                     if (!validityLambda.test(number))
                         throw new NumberFormatException();
@@ -44,8 +44,8 @@ public class ClientHandler implements Runnable {
     }
 
     private int getInteger(PrintWriter pw, BufferedReader br, String invalidMessage,
-                           Predicate<Long> validityLambda) throws SocketException {
-        return (int) getLong(pw, br, invalidMessage, validityLambda);
+                           Predicate<Double> validityLambda) throws SocketException {
+        return (int) getDouble(pw, br, invalidMessage, validityLambda);
     }
 
     private void startQuiz(Socket clientSocket, PrintWriter pw, BufferedReader br) {
@@ -79,7 +79,8 @@ public class ClientHandler implements Runnable {
                 currentQuestionNumber++;
                 pw.println(q.showQuestion(currentQuestionNumber));
                 pw.flush();
-                long answer = getLong(pw, br, "Please enter a valid numerical value", null);
+                double answer = getDouble(pw, br, "Please enter a valid numerical value", null);
+                System.out.println("Client Handler Answer " + answer);
                 q.answerQuestion(answer);
 
                 if (currentQuestionNumber != quiz.getNumOfQuestions()) {

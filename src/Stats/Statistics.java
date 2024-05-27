@@ -18,6 +18,12 @@ public final class Statistics {
 
 
     public static void initStats() {
+        try {
+            File file = new File(FILE_NAME);
+            file.createNewFile();
+        } catch (IOException ioe) {
+            System.out.println("Failed to create file " + ioe);
+        }
         try (ObjectInputStream oReader = new ObjectInputStream(new FileInputStream(FILE_NAME))) {
             numOfQuizzes = oReader.readInt();
             oneOperationQuizzes = oReader.readInt();

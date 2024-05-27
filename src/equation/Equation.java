@@ -8,7 +8,7 @@ import java.util.List;
 public class Equation implements Serializable {
 
     private int maxNumOfDigits;
-    private long solution;
+    private Double solution;
     private String equation;
     private final static ArrayList<String> OPERATIONS =
             new ArrayList<>(Arrays.asList("+", "-", "*", "/"));
@@ -25,7 +25,7 @@ public class Equation implements Serializable {
 
         this.maxNumOfDigits = maxNumOfDigits;
         this.equation = buildEquation(maxNumOfDigits, maxNumOfOperations);
-        this.solution = (long) solveEquation(this.equation);
+        this.solution = Math.floor((solveEquation(this.equation) * 10.0)) / 10.0;
     }
 
     private String buildEquation(int maxNumOfDigits, int maxNumOfOperations) {
@@ -68,7 +68,7 @@ public class Equation implements Serializable {
         return maxNumOfDigits;
     }
 
-    public long getSolution() {
+    public Double getSolution() {
         return solution;
     }
 
