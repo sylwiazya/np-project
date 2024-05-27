@@ -80,7 +80,6 @@ public class ClientHandler implements Runnable {
                 pw.println(q.showQuestion(currentQuestionNumber));
                 pw.flush();
                 double answer = getDouble(pw, br, "Please enter a valid numerical value", null);
-                System.out.println("Client Handler Answer " + answer);
                 q.answerQuestion(answer);
 
                 if (currentQuestionNumber != quiz.getNumOfQuestions()) {

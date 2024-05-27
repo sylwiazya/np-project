@@ -21,7 +21,7 @@ public class Server {
     public Server(int port) throws IOException {
         socket = new ServerSocket(port);
         this.port = port;
-        socket.setSoTimeout(60 * 10 * 1000);
+        socket.setSoTimeout(10 * 1000 * 60);
     }
 
     public void startListening() throws IOException {
